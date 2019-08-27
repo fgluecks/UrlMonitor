@@ -2,6 +2,10 @@
 
 namespace UrlMonitor;
 
+use UrlMonitor\Output\Console;
+use UrlMonitor\Tools\Cookies;
+use \UrlMonitor\Tools\PublicIP;
+
 class Monitor
 {
 	private $info
@@ -19,7 +23,7 @@ class Monitor
 
 	public function run($domain)
 	{
-		$Console = new \UrlMonitor\Output\Console();
+		$Console = new Console();
 
 		if (empty($domain) or !is_string($domain) or !preg_match("%^((https?://)|(www\.))([a-z0-9-].?)+(:[0-9]+)?(/.*)?$%i", $domain)) {
 			$Console->logLine('Invalid Domain:' . $domain, true);
@@ -28,8 +32,8 @@ class Monitor
 
 		$Console->logLine("--- URL Monitoring " . date('Y-m-d H:i:s') . " ---");
 		$Console->logLine("Url : " . $domain);
-		$Console->logLine("Public IPv4: " . \UrlMonitor\Tools\PublicIP::get('v4'));
-		$Console->logLine("Public IPv6: " . \UrlMonitor\Tools\PublicIP::get('v6'));
+		$Console->logLine("Public IPv4: " . PublicIP::get('v4'));
+		$Console->logLine("Public IPv6: " . PublicIP::get('v6'));
 		$Console->logLine("----------");
 
 		$lineNumber = 0;
@@ -76,7 +80,7 @@ class Monitor
 
 		$response = curl_exec($handle);
 
-		$cookies = \UrlMonitor\Tools\Cookies::get($response);
+		$cookies = Cookies::get($response);
 
 		$dataSet = [];
 		$dataSet['date'] = date('Y-m-d H:i:s');
