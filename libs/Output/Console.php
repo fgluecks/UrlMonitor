@@ -15,7 +15,7 @@ class Console
 		}
 	}
 
-	public function logCell($line, $blankLine = false)
+	public function logCell($line)
 	{
 		if (is_array($line)) {
 			foreach ($line as $text) {
