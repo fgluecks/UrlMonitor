@@ -41,17 +41,21 @@ class Monitor
 		while (true) {
 			$dataSet = $this->getResponse($domain);
 
-			$lineNumber++;
+			if (!$dataSet) {
+				break;
+			} else {
+				$lineNumber++;
 
-			if ($lineNumber == 1) {
-				$Console->logCell(array_keys($dataSet));
-			} elseif ($lineNumber == 10) {
-				$lineNumber = 0;
+				if ($lineNumber == 1) {
+					$Console->logCell(array_keys($dataSet));
+				} elseif ($lineNumber == 10) {
+					$lineNumber = 0;
+				}
+
+				$Console->logCell($dataSet);
+
+				sleep($this->sleepTime);
 			}
-
-			$Console->logCell($dataSet);
-
-			sleep($this->sleepTime);
 		}
 	}
 
@@ -96,7 +100,7 @@ class Monitor
 
 			return $dataSet;
 		} else {
-			exit("unable to check url");
+			return false;
 		}
 	}
 }
