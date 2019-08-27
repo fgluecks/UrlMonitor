@@ -70,29 +70,33 @@ class Monitor
 		$loadBalancerCookieName = "AlteonP";
 
 		$handle = curl_init($domain);
-		curl_setopt($handle, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($handle, CURLOPT_HEADER, 1);
-		curl_setopt($handle, CURLOPT_COOKIEJAR, COOKIE_FILE);
-		curl_setopt($handle, CURLOPT_COOKIEFILE, COOKIE_FILE);
-		curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($handle, CURLOPT_TIMEOUT, 1000);
-		curl_setopt($handle, CURLOPT_USERAGENT, $userAgent);
+		if ($handle) {
+			curl_setopt($handle, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($handle, CURLOPT_HEADER, 1);
+			curl_setopt($handle, CURLOPT_COOKIEJAR, COOKIE_FILE);
+			curl_setopt($handle, CURLOPT_COOKIEFILE, COOKIE_FILE);
+			curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($handle, CURLOPT_TIMEOUT, 1000);
+			curl_setopt($handle, CURLOPT_USERAGENT, $userAgent);
 
-		$response = curl_exec($handle);
+			$response = curl_exec($handle);
 
-		$cookies = Cookies::get($response);
+			$cookies = Cookies::get($response);
 
-		$dataSet = [];
-		$dataSet['date'] = date('Y-m-d H:i:s');
+			$dataSet = [];
+			$dataSet['date'] = date('Y-m-d H:i:s');
 
-		foreach ($this->info as $lineInfo) {
-			$dataSet[$lineInfo] = curl_getinfo($handle, constant($lineInfo));
+			foreach ($this->info as $lineInfo) {
+				$dataSet[$lineInfo] = curl_getinfo($handle, constant($lineInfo));
+			}
+
+			$dataSet[$sessionIdCookieName] = (isset($cookies[$sessionIdCookieName])) ? $cookies[$sessionIdCookieName] : "";
+
+			$dataSet[$loadBalancerCookieName] = (isset($cookies[$loadBalancerCookieName])) ? $cookies[$loadBalancerCookieName] : "";
+
+			return $dataSet;
+		} else {
+			exit("unable to check url");
 		}
-
-		$dataSet[$sessionIdCookieName] = (isset($cookies[$sessionIdCookieName])) ? $cookies[$sessionIdCookieName] : "";
-
-		$dataSet[$loadBalancerCookieName] = (isset($cookies[$loadBalancerCookieName])) ? $cookies[$loadBalancerCookieName] : "";
-
-		return $dataSet;
 	}
 }
