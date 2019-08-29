@@ -2,6 +2,8 @@
 
 namespace UrlMonitor;
 
+use InvalidArgumentException;
+use RuntimeException;
 use UrlMonitor\Output\Console;
 use UrlMonitor\Tools\Cookies;
 use \UrlMonitor\Tools\PublicIP;
@@ -26,8 +28,7 @@ class Monitor
 		$Console = new Console();
 
 		if (!is_string($domain) or !preg_match("%^((https?://)|(www\.))([a-z0-9-].?)+(:[0-9]+)?(/.*)?$%i", $domain)) {
-			$Console->logLine('Invalid Domain:' . $domain, true);
-			exit();
+			throw new InvalidArgumentException('Invalid Domain:' . $domain);
 		}
 
 		$Console->logLine("--- URL Monitoring " . date('Y-m-d H:i:s') . " ---");
@@ -42,7 +43,7 @@ class Monitor
 			$dataSet = $this->getResponse($domain);
 
 			if (!$dataSet) {
-				break;
+				throw new RuntimeException('Invalid curl response');
 			} else {
 				$lineNumber++;
 
