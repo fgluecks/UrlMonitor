@@ -33,8 +33,13 @@ class Monitor
 
 		$Console->logLine("--- URL Monitoring " . date('Y-m-d H:i:s') . " ---");
 		$Console->logLine("Url : " . $domain);
-		$Console->logLine("Public IPv4: " . PublicIP::get('v4'));
-		$Console->logLine("Public IPv6: " . PublicIP::get('v6'));
+
+		$ipV4 = PublicIP::get('v4');
+		$Console->logLine("Public IPv4: " . (($ipV4 !== false) ? $ipV4 : "unkown"));
+
+		$ipV6 = PublicIP::get('v6');
+		$Console->logLine("Public IPv6: " . (($ipV6 !== false) ? $ipV6 : "unkown"));
+
 		$Console->logLine("----------");
 
 		$lineNumber = 0;
