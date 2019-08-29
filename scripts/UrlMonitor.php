@@ -1,7 +1,5 @@
 <?php
 
-use UrlMonitor\Output\Console;
-
 require_once "../libs/Tools/PublicIP.php";
 require_once "../libs/Tools/Cookies.php";
 
