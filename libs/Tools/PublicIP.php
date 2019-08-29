@@ -9,7 +9,7 @@ class PublicIP
 		$userAgent = 'Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0';
 
 		$ch = curl_init();
-		if ($ch) {
+		if (is_resource($ch)) {
 			curl_setopt($ch, CURLOPT_URL, "https://www.wieistmeineip.de");
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
