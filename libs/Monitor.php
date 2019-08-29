@@ -80,7 +80,7 @@ class Monitor
 		$loadBalancerCookieName = "AlteonP";
 
 		$handle = curl_init($domain);
-		if ($handle) {
+		if (is_resource($handle)) {
 			curl_setopt($handle, CURLOPT_RETURNTRANSFER, 1);
 			curl_setopt($handle, CURLOPT_HEADER, 1);
 			curl_setopt($handle, CURLOPT_COOKIEJAR, COOKIE_FILE);
