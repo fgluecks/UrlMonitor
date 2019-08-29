@@ -25,7 +25,10 @@ class Monitor
 	{
 		$Console = new Console();
 
-		if (empty($domain) or !is_string($domain) or !preg_match("%^((https?://)|(www\.))([a-z0-9-].?)+(:[0-9]+)?(/.*)?$%i", $domain)) {
+		if (empty($domain)) {
+			$Console->logLine('Empty Domain Parameter - Example: php UrlMonitor.php www.github.com' . $domain, true);
+			exit();
+		} else if (!is_string($domain) or !preg_match("%^((https?://)|(www\.))([a-z0-9-].?)+(:[0-9]+)?(/.*)?$%i", $domain)) {
 			$Console->logLine('Invalid Domain:' . $domain, true);
 			exit();
 		}
