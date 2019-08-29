@@ -25,7 +25,7 @@ class Monitor
 	{
 		$Console = new Console();
 
-		if (empty($domain) or !is_string($domain) or !preg_match("%^((https?://)|(www\.))([a-z0-9-].?)+(:[0-9]+)?(/.*)?$%i", $domain)) {
+		if (!is_string($domain) or !preg_match("%^((https?://)|(www\.))([a-z0-9-].?)+(:[0-9]+)?(/.*)?$%i", $domain)) {
 			$Console->logLine('Invalid Domain:' . $domain, true);
 			exit();
 		}
