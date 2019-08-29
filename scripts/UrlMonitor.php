@@ -9,6 +9,10 @@ require_once "../libs/Monitor.php";
 
 $Monitor = new \UrlMonitor\Monitor();
 
-$Monitor->run($argv[1]);
+if (isset($argv[1])) {
+	$domain = filter_var($argv[1], FILTER_SANITIZE_STRING);
+} else {
+	$domain = (string) "";
+}
 
-
+$Monitor->run($domain);
